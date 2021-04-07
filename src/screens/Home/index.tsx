@@ -1,12 +1,23 @@
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { TabHomeParamList } from '../../../types';
 
 import { Text, View } from '../../components/Themed';
 
-const Home = () => {
+const Home: React.FunctionComponent<RouteProp<TabHomeParamList, 'Home'>> = ({
+  
+}) => {
+
+  const navigate = useNavigation()
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
+      <TouchableOpacity 
+        onPress={() => navigate.navigate("Salary")}
+      >
+        <Text style={styles.title}>Salary</Text>
+      </TouchableOpacity>
     </View>
   );
 }

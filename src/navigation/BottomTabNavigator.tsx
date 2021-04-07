@@ -6,6 +6,7 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabHomeScreen from '../screens/Home';
+import Salary from "../screens/salary";
 import TabContactScreen from '../screens/Contact';
 import { BottomTabParamList, TabContactParamList, TabHomeParamList } from '../../types';
 import Header from '../components/header';
@@ -58,6 +59,13 @@ function TabHomeNavigator() {
           headerTitle: 'Home',
           //if you hidden header
           // headerShown: false 
+       }}
+      />
+      <TabHomeStack.Screen
+        name="Salary"
+        component={Salary}
+        options={{ 
+          headerTitle: 'Salary',
        }}
       />
     </TabHomeStack.Navigator>
