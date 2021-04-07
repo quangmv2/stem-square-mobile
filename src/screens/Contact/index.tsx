@@ -1,18 +1,28 @@
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
+// import { RootStackParamList } from '../../../types';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../../components/Themed';
 
-export default function TabTwoScreen() {
+
+
+const Contact = ({
+
+}) => {
+
+  const navigation = useNavigation();
+
+  React.useEffect(() => {
+  }, [])
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
+      <Text style={styles.title}>Contact</Text>
     </View>
   );
 }
+export default Contact;
 
 const styles = StyleSheet.create({
   container: {
