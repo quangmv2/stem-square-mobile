@@ -2,6 +2,8 @@ import React from 'react';
 import { View } from 'native-base';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import BottomTabNavigator from './BottomTabNavigator';
+import Login from "../screens/login";
+import Register from "../screens/register";
 import { RootNavigator } from '.';
 import Header from '../components/header';
 import CustomDrawerContent from './CustomDrawerContent';
@@ -15,7 +17,10 @@ const MainDrawerNavigator = createDrawerNavigator();
 const DrawNavigate: React.FC<DrawNavigateProps> = () => {
     return (
         <MainDrawerNavigator.Navigator
-            statusBarAnimation="slide"
+            statusBarAnimation="fade"
+            screenOptions={{
+                swipeEnabled: true
+            }}
             drawerContent={CustomDrawerContent}
             drawerStyle={{
                 // backgroundColor: "red"
@@ -24,6 +29,14 @@ const DrawNavigate: React.FC<DrawNavigateProps> = () => {
             <MainDrawerNavigator.Screen
                 name="Home"
                 component={BottomTabNavigator}
+            />
+            <MainDrawerNavigator.Screen
+                name="Login"
+                component={Login}
+            />
+            <MainDrawerNavigator.Screen
+                name="Register"
+                component={Register}
             />
         </MainDrawerNavigator.Navigator>
     );

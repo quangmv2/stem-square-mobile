@@ -10,6 +10,7 @@ export type BottomTabParamList = {
 
 export type TabHomeParamList = {
   Home: undefined;
+  Salary: undefined;
 };
 
 export type TabContactParamList = {
