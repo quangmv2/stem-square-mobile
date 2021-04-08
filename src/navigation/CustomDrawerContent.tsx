@@ -5,11 +5,20 @@ import {
     DrawerContentScrollView,
     DrawerItem,
     DrawerItemList,
+
 } from '@react-navigation/drawer';
 import { Linking } from 'react-native';
-import { View } from 'native-base';
+import { Text, View } from 'native-base';
+import { useAuth } from '../store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DrawerActions } from '@react-navigation/native';
 
-const CustomDrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = (props) => {
+interface DrawProps {
+    logout?: Function
+}
+
+const CustomDrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions> & DrawProps> = (props) => {
+
     return (
         <View style={{
             height: "100%"
@@ -17,12 +26,30 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOpt
             <View
                 style={{
                     height: 200,
-                    backgroundColor: "#f5f6fa"
+                    backgroundColor: "#f5f6fa",
+                    justifyContent: "center",
+                    alignItems: "center"
                 }}
-            ></View>
+            >
+                <Text style={{
+                    fontWeight: "bold",
+                    fontSize: 50,
+                    color: "#fb5b5a",
+                }}>viEdu</Text>
+            </View>
             <DrawerContentScrollView {...props} style={{
             }}>
                 <DrawerItemList {...props} />
+                {
+                    props.logout &&
+                    <DrawerItem
+                        label="Logout"
+                        onPress={() => {
+                            props.logout && props.logout();
+                            props.navigation.dispatch(DrawerActions.closeDrawer());
+                        }}
+                    />
+                }
                 <DrawerItem
                     label="Help"
                     onPress={() => Linking.openURL('https://mywebsite.com/help')}

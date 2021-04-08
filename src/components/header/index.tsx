@@ -17,7 +17,7 @@ const Header: React.FC<StackHeaderProps> = ({
             <TouchableOpacity
                 onPress={() => previous ? navigation.goBack() : navigation.dispatch(DrawerActions.toggleDrawer())}
                 style={{
-                    marginLeft: 10
+                    marginLeft: 5
                 }}
             >
                {
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         height: "100%",
         alignItems: 'center',
-        justifyContent: "center"
+        justifyContent: "center",
+        fontSize: 40
     }
 })  

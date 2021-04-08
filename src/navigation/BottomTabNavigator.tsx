@@ -7,14 +7,19 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabHomeScreen from '../screens/Home';
 import Salary from "../screens/salary";
-import TabContactScreen from '../screens/Contact';
-import { BottomTabParamList, TabContactParamList, TabHomeParamList } from '../../types';
+import TabUserScreen from '../screens/user';
+import { BottomTabParamList, TabUserParamList, TabHomeParamList, AttendanceStackParamsList } from '../../types';
+import ListClass from "../screens/list-class";
+import Attendance from "../screens/attendance";
+import LearningHub from "../screens/learning-hub";
 import Header from '../components/header';
+import { useAuth } from '../store';
 
 export const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const { user } = useAuth()
 
   return (
     <BottomTab.Navigator
@@ -27,11 +32,31 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-home" color={color} />,
         }}
       />
+      {
+        user && user.role != "student" && <BottomTab.Screen
+          name="Attendance"
+          component={TabAttendanceNavigator}
+          options={{
+            tabBarIcon: ({ color }) => <TabBarIcon name="ios-checkbox" color={color} />,
+          }}
+        />
+      }
+
+      {
+        user && user.role != "student" && <BottomTab.Screen
+          name="Salary"
+          component={TabSalaryNavigator}
+          options={{
+            tabBarIcon: ({ color }) => <TabBarIcon name="ios-list" color={color} />,
+          }}
+        />
+      }
+
       <BottomTab.Screen
-        name="Contact"
-        component={TabContactNavigator}
+        name="User"
+        component={TabUserNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-call" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-people" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -55,37 +80,85 @@ function TabHomeNavigator() {
       <TabHomeStack.Screen
         name="Home"
         component={TabHomeScreen}
-        options={{ 
+        options={{
           headerTitle: 'Home',
           //if you hidden header
-          // headerShown: false 
-       }}
+          headerShown: false
+        }}
       />
       <TabHomeStack.Screen
-        name="Salary"
-        component={Salary}
-        options={{ 
-          headerTitle: 'Salary',
-       }}
+        name="LearningHub"
+        component={LearningHub}
+        options={{
+          headerTitle: 'Learning',
+        }}
       />
     </TabHomeStack.Navigator>
   );
 }
 
-const TabContactStack = createStackNavigator<TabContactParamList>();
+const TabUserStack = createStackNavigator<TabUserParamList>();
 
-export function TabContactNavigator() {
+export function TabUserNavigator() {
   return (
-    <TabContactStack.Navigator
+    <TabUserStack.Navigator
       screenOptions={{
         header: Header,
       }}
     >
-      <TabContactStack.Screen
-        name="Contact"
-        component={TabContactScreen}
-        options={{ headerTitle: 'Contact' }}
+      <TabUserStack.Screen
+        name="User"
+        component={TabUserScreen}
+        options={{
+          headerTitle: 'User',
+          headerShown: false
+        }}
       />
-    </TabContactStack.Navigator>
+    </TabUserStack.Navigator>
   );
 }
+
+const TabSalaryStack = createStackNavigator()
+
+export const TabSalaryNavigator = () => {
+  return (
+    <TabSalaryStack.Navigator>
+      <TabSalaryStack.Screen
+        name="Salary"
+        component={Salary}
+        options={{
+          headerTitle: 'Salary',
+          headerShown: false
+        }}
+      />
+    </TabSalaryStack.Navigator>
+  )
+}
+
+const TabAttendanceStack = createStackNavigator<AttendanceStackParamsList>()
+
+export const TabAttendanceNavigator = () => {
+  return (
+    <TabAttendanceStack.Navigator>
+      <TabAttendanceStack.Screen
+        name="ListClass"
+        component={ListClass}
+        options={{
+          headerTitle: 'ListClass',
+          headerShown: false
+        }}
+      />
+
+      <TabAttendanceStack.Screen
+        name="Attendance"
+        component={Attendance}
+        options={{
+          headerTitle: 'Attendance',
+          headerShown: false
+        }}
+      />
+    </TabAttendanceStack.Navigator>
+  )
+}
+
+

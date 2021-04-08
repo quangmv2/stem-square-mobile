@@ -1,7 +1,11 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons'
+import { useAuth } from '../../store';
+import { Input, Spinner } from 'native-base';
+import { users } from "./users-data";
+// import { Toast } from 'native-base';
 interface LoginProps {
 
 }
@@ -10,7 +14,24 @@ const Login: React.FC<LoginProps> = () => {
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     const navigation = useNavigation();
+    const { setIsAuth, setUser } = useAuth();
+
+    const passwordRef = useRef<TextInput | null>(null)
+
+
+    const login = () => {
+        setLoading(true)
+        const user = users.find(u => u.username == email.toLowerCase().trim() && u.password == password.toLowerCase().trim());
+        if (user) {
+            setIsAuth(true);
+            setUser(user);
+            return;
+        }
+        Alert.alert("Login", "Login failed");
+        setLoading(false)
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -25,7 +46,13 @@ const Login: React.FC<LoginProps> = () => {
                     style={styles.inputText}
                     placeholder="Email..."
                     placeholderTextColor="#003f5c"
-                    onChangeText={text => setEmail(text)} />
+                    onChangeText={text => setEmail(text)}
+                    autoCorrect={true}
+                    onSubmitEditing={() => {
+                        passwordRef.current.focus()
+                    }}
+                    returnKeyLabel="Next"
+                />
             </View>
             <View style={styles.inputView} >
                 <TextInput
@@ -33,12 +60,24 @@ const Login: React.FC<LoginProps> = () => {
                     style={styles.inputText}
                     placeholder="Password..."
                     placeholderTextColor="#003f5c"
-                    onChangeText={text => setPassword(text)} />
+                    onChangeText={text => setPassword(text)}
+                    ref={passwordRef}
+                    onSubmitEditing={login}
+                    returnKeyLabel="Done"
+                />
             </View>
             <TouchableOpacity>
                 <Text style={styles.forgot}>Forgot Password?</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity style={[styles.loginBtn, { opacity: loading ? 0.5 : 1 }]}
+                onPress={login}
+                disabled={loading}
+            >
+                {
+                    loading && <Spinner color="white" size={20} style={{
+                        marginRight: 10
+                    }} />
+                }
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -46,8 +85,6 @@ const Login: React.FC<LoginProps> = () => {
             >
                 <Text style={[styles.loginText, { color: "#003f5c" }]}>Signup</Text>
             </TouchableOpacity>
-
-
         </SafeAreaView>
     );
 }
@@ -92,7 +129,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: 40,
-        marginBottom: 10
+        marginBottom: 10,
+        flexDirection: "row"
     },
     loginText: {
         color: "white"

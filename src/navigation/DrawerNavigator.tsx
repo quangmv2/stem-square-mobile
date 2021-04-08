@@ -7,6 +7,9 @@ import Register from "../screens/register";
 import { RootNavigator } from '.';
 import Header from '../components/header';
 import CustomDrawerContent from './CustomDrawerContent';
+import { useAuth } from '../store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Admin from "../screens/list-employee";
 
 interface DrawNavigateProps {
 
@@ -15,29 +18,53 @@ interface DrawNavigateProps {
 const MainDrawerNavigator = createDrawerNavigator();
 
 const DrawNavigate: React.FC<DrawNavigateProps> = () => {
+
+    const { isAuth, setUser, setIsAuth, user } = useAuth();
+
+    const logout = () => {
+        setIsAuth(false);
+        setUser(null);
+        AsyncStorage.clear();
+
+    }
+
     return (
         <MainDrawerNavigator.Navigator
             statusBarAnimation="fade"
             screenOptions={{
                 swipeEnabled: true
             }}
-            drawerContent={CustomDrawerContent}
+            drawerContent={props => <CustomDrawerContent {...props} logout={isAuth ? logout : null} />}
             drawerStyle={{
                 // backgroundColor: "red"
             }}
+            initialRouteName={isAuth ? "Login" : "Home"}
         >
-            <MainDrawerNavigator.Screen
-                name="Home"
-                component={BottomTabNavigator}
-            />
-            <MainDrawerNavigator.Screen
-                name="Login"
-                component={Login}
-            />
-            <MainDrawerNavigator.Screen
-                name="Register"
-                component={Register}
-            />
+            {
+                isAuth &&
+                <MainDrawerNavigator.Screen
+                    name="Home"
+                    component={BottomTabNavigator}
+                />
+            }
+            {
+                isAuth && user && user.role == "admin" && < MainDrawerNavigator.Screen
+                    name="Admin"
+                    component={Admin}
+                />
+            }
+            {
+                !isAuth && <MainDrawerNavigator.Screen
+                    name="Login"
+                    component={Login}
+                />
+            }
+            {
+                !isAuth && <MainDrawerNavigator.Screen
+                    name="Register"
+                    component={Register}
+                />
+            }
         </MainDrawerNavigator.Navigator>
     );
 }
