@@ -1,5 +1,5 @@
-import { View } from 'native-base';
 import React from 'react';
+import { View } from 'native-base';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import BottomTabNavigator from './BottomTabNavigator';
 import { RootNavigator } from '.';
