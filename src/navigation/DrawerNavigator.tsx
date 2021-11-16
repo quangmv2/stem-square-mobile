@@ -32,8 +32,9 @@ const DrawNavigate: React.FC<DrawNavigateProps> = () => {
         <MainDrawerNavigator.Navigator
             statusBarAnimation="fade"
             screenOptions={{
-                swipeEnabled: true
+                swipeEnabled: true,
             }}
+            backBehavior='none'
             drawerContent={props => <CustomDrawerContent {...props} logout={isAuth ? logout : null} />}
             drawerStyle={{
                 // backgroundColor: "red"
@@ -41,13 +42,13 @@ const DrawNavigate: React.FC<DrawNavigateProps> = () => {
             initialRouteName={isAuth ? "Login" : "Home"}
         >
             {
-                isAuth &&
+                // isAuth &&
                 <MainDrawerNavigator.Screen
                     name="Home"
                     component={BottomTabNavigator}
                 />
             }
-            {
+            {/* {
                 isAuth && user && user.role == "admin" && < MainDrawerNavigator.Screen
                     name="Admin"
                     component={Admin}
@@ -64,7 +65,7 @@ const DrawNavigate: React.FC<DrawNavigateProps> = () => {
                     name="Register"
                     component={Register}
                 />
-            }
+            } */}
         </MainDrawerNavigator.Navigator>
     );
 }

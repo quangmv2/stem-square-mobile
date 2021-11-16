@@ -40,7 +40,12 @@ const Login: React.FC<LoginProps> = () => {
             >
                 <EvilIcons name="navicon" size={30} color="black" />
             </TouchableOpacity>
-            <Text style={styles.logo}>viEdu</Text>
+            <View style={{
+                width: '100%',
+                padding: 40,
+            }}>
+                <Text style={styles.logo}>Sign In</Text>
+            </View>
             <View style={styles.inputView} >
                 <TextInput
                     style={styles.inputText}
@@ -67,7 +72,7 @@ const Login: React.FC<LoginProps> = () => {
                 />
             </View>
             <TouchableOpacity>
-                <Text style={styles.forgot}>Forgot Password?</Text>
+                <Text style={styles.forgot}>Forgot your password?</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.loginBtn, { opacity: loading ? 0.5 : 1 }]}
                 onPress={login}
@@ -82,8 +87,9 @@ const Login: React.FC<LoginProps> = () => {
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => navigation.navigate("Register")}
+                style={[styles.registerBtn]}
             >
-                <Text style={[styles.loginText, { color: "#003f5c" }]}>Signup</Text>
+                <Text style={[styles.loginText, { color: "#DDAE53" }]}>Create an account</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
@@ -94,46 +100,60 @@ export default Login;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f6fa',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
     },
     logo: {
         fontWeight: "bold",
         fontSize: 50,
-        color: "#fb5b5a",
-        marginBottom: 40
+        color: "#081F47",
+        textAlign: 'left'
     },
     inputView: {
         width: "80%",
         backgroundColor: "#fff",
-        borderRadius: 25,
         height: 50,
         marginBottom: 20,
         justifyContent: "center",
-        padding: 20
+        borderBottomColor: '#333333',
+        borderBottomWidth: 1
     },
     inputText: {
         height: 50,
         color: "#003f5c"
     },
     forgot: {
-        color: "#003f5c",
-        fontSize: 11
+        color: "#777777",
+        fontSize: 16
     },
     loginBtn: {
         width: "80%",
-        backgroundColor: "#fb5b5a",
+        backgroundColor: "#DDAE53",
         borderRadius: 25,
-        height: 50,
+        height: 60,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 40,
         marginBottom: 10,
         flexDirection: "row"
     },
+    registerBtn: {
+        width: "80%",
+        backgroundColor: "#fff",
+        borderRadius: 25,
+        height: 60,
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        borderColor: '#DDAE53',
+        borderWidth: 1
+    },
     loginText: {
-        color: "white"
+        color: "white",
+        fontSize: 16,
+        fontWeight: 'bold',
+        lineHeight: 26
     },
     nav: {
         position: "absolute",
